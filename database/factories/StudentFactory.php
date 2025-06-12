@@ -20,17 +20,15 @@ class StudentFactory extends Factory
      */
     public function definition(): array
     {
-        $department = Department::inRandomOrder()->first();
-        $division = $department ? $department->divisions()->inRandomOrder()->first() : null;
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'roll_number' => strtoupper(Str::random(2)) . $this->faker->unique()->numberBetween(1000, 9999),
-            'department_id' => $department?->id ?? 1,
-            'division_id' => $division?->id ?? 1,
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'roll_number' => $this->faker->unique()->regexify('[A-Z]{2}[0-9]{4}'),
+            'department_id' => Department::factory(),
+            'division_id' => Division::factory(),
             'batch' => $this->faker->numberBetween(2020, 2025),
             'password' => Hash::make('password'),
-            'is_active' => true,
+            'is_active' => $this->faker->boolean,
         ];
     }
 }

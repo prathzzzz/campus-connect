@@ -18,9 +18,9 @@ class DivisionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(['A', 'B', 'C', 'D']),
-            'department_id' => Department::inRandomOrder()->first()?->id ?? 1,
-            'is_active' => true,
+            'name' => $this->faker->unique()->word(),
+            'department_id' => Department::factory(),
+            'is_active' => $this->faker->boolean,
         ];
     }
 }

@@ -16,13 +16,10 @@ class DepartmentFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->unique()->randomElement([
-            'Computer Science', 'Electrical Engineering', 'Mechanical Engineering', 'Civil Engineering', 'Mathematics'
-        ]);
         return [
-            'name' => $name,
-            'code' => strtoupper(substr($name, 0, 3)) . $this->faker->unique()->numberBetween(1, 99),
-            'is_active' => true,
+            'name' => $this->faker->unique()->company(),
+            'code' => $this->faker->unique()->countryCode(),
+            'is_active' => $this->faker->boolean,
         ];
     }
 }
