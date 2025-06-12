@@ -10,7 +10,7 @@ Campus Connect is a placement management tool for educational institutions, curr
 
 ## Technology Stack
 
--   **Backend:** PHP 8.2, Laravel 11
+-   **Backend:** PHP 8.2+, Laravel 12
 -   **Admin Panel:** Filament 3
 -   **Frontend:** Tailwind CSS, Alpine.js
 -   **Database:** SQLite (default), MySQL, or PostgreSQL
