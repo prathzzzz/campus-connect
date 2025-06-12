@@ -55,7 +55,7 @@ Campus Connect is a placement management tool for educational institutions, curr
 
 1.  **Start the development server:**
     ```bash
-    php artisan serve
+    composer run dev
     ```
 
 2.  **Access the application:**
