@@ -32,15 +32,6 @@ class PermissionResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('permission_update')),
-                Tables\Actions\DeleteAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('permission_delete')),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('permission_delete')),
-                ]),
             ]);
     }
 
