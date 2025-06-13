@@ -7,6 +7,8 @@ use App\Models\Department;
 use App\Models\Division;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Student;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Student>
@@ -30,5 +32,19 @@ class StudentFactory extends Factory
             'password' => Hash::make('password'),
             'is_active' => $this->faker->boolean,
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Student $student) {
+            $user = User::create([
+                'name' => $student->name,
+                'email' => $student->email,
+                'password' => $student->password,
+            ]);
+            $user->assignRole('student');
+            $student->user_id = $user->id;
+            $student->save();
+        });
     }
 }

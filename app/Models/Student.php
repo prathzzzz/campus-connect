@@ -15,11 +15,12 @@ class Student extends Authenticatable
         'name',
         'email',
         'roll_number',
-        'department_id', 
+        'department_id',
         'division_id',
         'batch',
         'password',
         'is_active',
+        'user_id',
     ];
 
     protected $hidden = [
@@ -39,5 +40,10 @@ class Student extends Authenticatable
     public function division()
     {
         return $this->belongsTo(Division::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

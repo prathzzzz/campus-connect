@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
+            AdminSeeder::class,
             DepartmentSeeder::class,
             DivisionSeeder::class,
             StudentSeeder::class,
-            AdminSeeder::class,
         ]);
     }
 }
