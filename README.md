@@ -63,7 +63,7 @@ Campus Connect is a placement management tool for educational institutions, curr
 
 3.  **Login to the admin panel:**
     -   **URL:** `http://127.0.0.1:8000/admin`
-    -   **Email:** `admin@example.com`
+    -   **Email:** `admin@gmail.com`
     -   **Password:** `password`
 
     The default admin user is created by the `DatabaseSeeder`.
