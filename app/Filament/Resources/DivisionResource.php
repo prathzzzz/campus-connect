@@ -2,18 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DivisionResource\Pages;
-use App\Filament\Resources\DivisionResource\Pages\ListDivisions;
 use App\Filament\Resources\DivisionResource\Pages\CreateDivision;
 use App\Filament\Resources\DivisionResource\Pages\EditDivision;
+use App\Filament\Resources\DivisionResource\Pages\ListDivisions;
 use App\Models\Division;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class DivisionResource extends Resource

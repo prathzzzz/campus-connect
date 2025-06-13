@@ -3,17 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RoleResource\Pages;
-use App\Filament\Resources\RoleResource\RelationManagers;
-use Spatie\Permission\Models\Role;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class RoleResource extends Resource
 {
@@ -39,7 +36,7 @@ class RoleResource extends Resource
                 Select::make('permissions')
                     ->multiple()
                     ->relationship('permissions', 'name')
-                    ->preload()
+                    ->preload(),
             ]);
     }
 

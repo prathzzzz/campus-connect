@@ -3,24 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\StudentResource\Pages;
-use App\Filament\Resources\StudentResource\RelationManagers;
 use App\Models\Student;
-use App\Models\Department;
-use App\Models\Division;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class StudentResource extends Resource
 {
@@ -57,19 +52,20 @@ class StudentResource extends Resource
                     ->preload()
                     ->reactive(),
                 Forms\Components\Select::make('division_id')
-                ->label('Division')
-                ->options(function ($get) {
-                    $departmentId = $get('department_id');
-                    if (!$departmentId) {
-                        return [];
-                    }
-                    return \App\Models\Division::where('department_id', $departmentId)
-                        ->pluck('name', 'id')
-                        ->toArray();
-                })
-                ->required()
-                ->searchable()
-                ->preload(),
+                    ->label('Division')
+                    ->options(function ($get) {
+                        $departmentId = $get('department_id');
+                        if (! $departmentId) {
+                            return [];
+                        }
+
+                        return \App\Models\Division::where('department_id', $departmentId)
+                            ->pluck('name', 'id')
+                            ->toArray();
+                    })
+                    ->required()
+                    ->searchable()
+                    ->preload(),
                 Forms\Components\TextInput::make('batch')
                     ->label('Batch Year')
                     ->type('number')
@@ -85,6 +81,7 @@ class StudentResource extends Resource
     public static function mutateFormDataBeforeCreate(array $data): array
     {
         $data['password'] = Hash::make('password'); // Set default password
+
         return $data;
     }
 
@@ -93,6 +90,7 @@ class StudentResource extends Resource
         if (empty($data['password'])) {
             $data['password'] = Hash::make('password');
         }
+
         return $data;
     }
 
