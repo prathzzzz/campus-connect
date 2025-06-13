@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class DivisionResource extends Resource
 {
@@ -22,6 +23,11 @@ class DivisionResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     protected static ?string $navigationGroup = 'Academic Management';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::check() && Auth::user()->can('division_view');
+    }
 
     public static function form(Form $form): Form
     {
@@ -34,7 +40,8 @@ class DivisionResource extends Resource
                     ->preload(),
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
                 Forms\Components\Toggle::make('is_active')
                     ->required()
                     ->default(true),
@@ -65,12 +72,12 @@ class DivisionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('division_update')),
+                Tables\Actions\DeleteAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('division_delete')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->visible(fn () => Auth::check() && Auth::user()->can('division_delete')),
                 ]),
             ]);
     }

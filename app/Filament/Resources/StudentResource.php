@@ -20,12 +20,18 @@ use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class StudentResource extends Resource
 {
     protected static ?string $model = Student::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::check() && Auth::user()->can('student_view');
+    }
 
     public static function form(Form $form): Form
     {
@@ -124,12 +130,12 @@ class StudentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('student_update')),
+                Tables\Actions\DeleteAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('student_delete')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->visible(fn () => Auth::check() && Auth::user()->can('student_delete')),
                 ]),
             ])
             ->headerActions([
