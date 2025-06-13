@@ -130,8 +130,10 @@ class StudentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('student_update')),
-                Tables\Actions\DeleteAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('student_delete')),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('student_update')),
+                    Tables\Actions\DeleteAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('student_delete')),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
