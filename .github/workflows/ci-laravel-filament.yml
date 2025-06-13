@@ -9,6 +9,8 @@ on:
 jobs:
   format-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     services:
       mysql:
