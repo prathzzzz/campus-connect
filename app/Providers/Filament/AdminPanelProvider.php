@@ -18,6 +18,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Widgets\CustomAccountWidget;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -25,8 +26,8 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('panel')
+            ->path('panel')
             ->login()
             ->profile(EditProfile::class)
             ->colors([
@@ -39,7 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                CustomAccountWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -54,7 +55,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-                \App\Http\Middleware\IsAdmin::class,
             ]);
     }
 }
