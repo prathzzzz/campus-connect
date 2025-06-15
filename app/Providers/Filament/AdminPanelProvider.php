@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\CustomEditProfile;
 use App\Filament\Auth\CustomRegister;
 use App\Filament\Widgets\CustomAccountWidget;
 use Filament\Http\Middleware\Authenticate;
@@ -32,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->passwordReset()
             ->registration(CustomRegister::class)
             ->emailVerification()
-            ->profile(EditProfile::class)
+            ->profile(CustomEditProfile::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
