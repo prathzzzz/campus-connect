@@ -37,6 +37,6 @@ class Division extends Model
             ->logOnly(['*'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "This division has been {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "This division has been {$eventName}");
     }
 }

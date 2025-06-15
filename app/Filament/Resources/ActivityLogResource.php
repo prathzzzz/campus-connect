@@ -7,10 +7,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Spatie\Activitylog\Models\Activity;
 
 class ActivityLogResource extends Resource
 {

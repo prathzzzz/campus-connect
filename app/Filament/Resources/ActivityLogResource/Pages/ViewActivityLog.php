@@ -3,13 +3,12 @@
 namespace App\Filament\Resources\ActivityLogResource\Pages;
 
 use App\Filament\Resources\ActivityLogResource;
-use Filament\Actions;
-use Filament\Resources\Pages\ViewRecord;
 use Filament\Infolists;
-use Illuminate\Support\Str;
-use Spatie\Activitylog\Models\Activity;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
+use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Support\Str;
+use Spatie\Activitylog\Models\Activity;
 
 class ViewActivityLog extends ViewRecord
 {
@@ -36,7 +35,7 @@ class ViewActivityLog extends ViewRecord
 
                 Section::make('Logged Data')
                     ->schema(function (?Activity $record): array {
-                        if (!$record || $record->properties->isEmpty()) {
+                        if (! $record || $record->properties->isEmpty()) {
                             return [];
                         }
 
@@ -56,6 +55,7 @@ class ViewActivityLog extends ViewRecord
                                         ->label(ucfirst(str_replace('_', ' ', $key)));
                                 }
                             }
+
                             return $schema;
                         };
 
@@ -67,7 +67,7 @@ class ViewActivityLog extends ViewRecord
                                             ->schema($buildSchema($properties['old'] ?? [], 'properties.old')),
                                         Section::make('New Values')
                                             ->schema($buildSchema($properties['attributes'] ?? [], 'properties.attributes')),
-                                    ])
+                                    ]),
                             ];
                         }
 
@@ -79,9 +79,9 @@ class ViewActivityLog extends ViewRecord
                         };
 
                         return [
-                           Section::make($label)
+                            Section::make($label)
                                 ->schema($buildSchema($properties[$dataKey] ?? [], "properties.{$dataKey}"))
-                                ->columns(2)
+                                ->columns(2),
                         ];
                     })
                     ->visible(fn (?Activity $record) => $record && $record->properties->isNotEmpty()),

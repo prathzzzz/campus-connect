@@ -37,6 +37,6 @@ class Department extends Model
             ->logOnly(['*'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "This department has been {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "This department has been {$eventName}");
     }
 }
