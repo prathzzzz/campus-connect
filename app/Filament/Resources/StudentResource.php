@@ -67,23 +67,18 @@ class StudentResource extends Resource
                     ->required(),
                 Forms\Components\Toggle::make('is_active')
                     ->required(),
-                Forms\Components\Hidden::make('password')
-                    ->default(\Illuminate\Support\Facades\Hash::make('password'))
-                    ->dehydrated(true),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create'),
             ]);
     }
 
     public static function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['password'] = Hash::make('password'); // Set default password
-
-        return $data;
-    }
-
-    public static function mutateFormDataBeforeSave(array $data): array
-    {
         if (empty($data['password'])) {
-            $data['password'] = Hash::make('password');
+            $data['password'] = Hash::make('password'); // Set default password
         }
 
         return $data;
