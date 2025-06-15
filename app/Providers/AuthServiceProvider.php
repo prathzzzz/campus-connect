@@ -8,9 +8,9 @@ use App\Models\Student;
 use App\Models\User;
 use App\Policies\DepartmentPolicy;
 use App\Policies\DivisionPolicy;
+use App\Policies\RolePolicy;
 use App\Policies\StudentPolicy;
 use App\Policies\UserPolicy;
-use App\Policies\RolePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Spatie\Permission\Models\Role;
 

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Permission;
@@ -31,7 +30,7 @@ class PermissionSeeder extends Seeder
         $permissions = [];
         foreach ($models as $model) {
             foreach ($actions as $action) {
-                $permissions[] = Permission::updateOrCreate(['name' => $action . '-' . $model, 'guard_name' => 'web']);
+                $permissions[] = Permission::updateOrCreate(['name' => $action.'-'.$model, 'guard_name' => 'web']);
             }
         }
 
