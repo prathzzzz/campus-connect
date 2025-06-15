@@ -3,13 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RoleResource\Pages;
-use Filament\Forms;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleResource extends Resource
@@ -22,21 +25,49 @@ class RoleResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return Auth::check() && Auth::user()->can('role_view');
+        return Auth::user()->can('view-any-role');
+    }
+
+    public static function canCreate(): bool
+    {
+        return Auth::user()->can('create-role');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return Auth::user()->can('update-role');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        if (strtolower($record->name) === 'admin') {
+            return false;
+        }
+
+        return Auth::user()->can('delete-role');
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true),
-                Select::make('permissions')
-                    ->multiple()
-                    ->relationship('permissions', 'name')
-                    ->preload(),
+                Section::make()
+                    ->schema([
+                        TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+                    ]),
+                Section::make(__('Permissions'))
+                    ->schema([
+                        CheckboxList::make('permissions')
+                            ->relationship('permissions', 'name')
+                            ->options(
+                                Permission::all()->pluck('name', 'id')
+                            )
+                            ->columns(4)
+                            ->bulkToggleable(),
+                    ]),
             ]);
     }
 
@@ -47,25 +78,20 @@ class RoleResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
-                Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('role_update')),
-                Tables\Actions\DeleteAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('role_delete')),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->visible(fn () => Auth::check() && Auth::user()->can('role_delete')),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

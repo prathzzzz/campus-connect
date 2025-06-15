@@ -23,11 +23,6 @@ class StudentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    public static function canViewAny(): bool
-    {
-        return Auth::check() && Auth::user()->can('student_view');
-    }
-
     public static function form(Form $form): Form
     {
         return $form
@@ -129,18 +124,21 @@ class StudentResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('student_update')),
-                    Tables\Actions\DeleteAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('student_delete')),
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->visible(fn () => Auth::check() && Auth::user()->can('student_delete')),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn () => Auth::user()->can('delete-student')),
                 ]),
             ])
             ->headerActions([
                 Action::make('import')
                     ->label('Import Students')
+                    ->visible(fn () => Auth::user()->can('create-student'))
                     ->form([
                         FileUpload::make('csv_file')
                             ->label('CSV File')

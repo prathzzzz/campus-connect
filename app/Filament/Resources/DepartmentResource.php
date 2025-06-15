@@ -11,7 +11,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 
 class DepartmentResource extends Resource
 {
@@ -20,11 +19,6 @@ class DepartmentResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
     protected static ?string $navigationGroup = 'Academic Management';
-
-    public static function canViewAny(): bool
-    {
-        return Auth::check() && Auth::user()->can('department_view');
-    }
 
     public static function form(Form $form): Form
     {
@@ -68,12 +62,13 @@ class DepartmentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('department_update')),
-                Tables\Actions\DeleteAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('department_delete')),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->visible(fn () => Auth::check() && Auth::user()->can('department_delete')),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

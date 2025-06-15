@@ -22,11 +22,6 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'Admin Management';
 
-    public static function canViewAny(): bool
-    {
-        return Auth::check() && Auth::user()->can('user_view');
-    }
-
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->with('roles');
@@ -85,11 +80,12 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->visible(fn ($record) => Auth::check() && Auth::user()->can('user_update')),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->visible(fn () => Auth::check() && Auth::user()->can('user_delete')),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
