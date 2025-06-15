@@ -12,7 +12,7 @@ class DivisionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('view-any-division');
     }
 
     /**
@@ -20,7 +20,7 @@ class DivisionPolicy
      */
     public function view(User $user, Division $division): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('view-division');
     }
 
     /**
@@ -28,7 +28,7 @@ class DivisionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('create-division');
     }
 
     /**
@@ -36,7 +36,7 @@ class DivisionPolicy
      */
     public function update(User $user, Division $division): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('update-division');
     }
 
     /**
@@ -44,7 +44,7 @@ class DivisionPolicy
      */
     public function delete(User $user, Division $division): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('delete-division');
     }
 
     /**
@@ -52,7 +52,7 @@ class DivisionPolicy
      */
     public function restore(User $user, Division $division): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('restore-division');
     }
 
     /**
@@ -60,6 +60,6 @@ class DivisionPolicy
      */
     public function forceDelete(User $user, Division $division): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('force-delete-division');
     }
 }

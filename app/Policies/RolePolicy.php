@@ -12,7 +12,7 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole('admin');
+        return $user->can('view-any-role');
     }
 
     /**
@@ -20,7 +20,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role): bool
     {
-        return $user->hasRole('admin');
+        return $user->can('view-role');
     }
 
     /**
@@ -28,7 +28,7 @@ class RolePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole('admin');
+        return $user->can('create-role');
     }
 
     /**
@@ -36,7 +36,11 @@ class RolePolicy
      */
     public function update(User $user, Role $role): bool
     {
-        return $user->hasRole('admin');
+        if (strtolower($role->name) === 'admin') {
+            return false;
+        }
+
+        return $user->can('update-role');
     }
 
     /**
@@ -44,7 +48,11 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
-        return $user->hasRole('admin');
+        if (strtolower($role->name) === 'admin') {
+            return false;
+        }
+
+        return $user->can('delete-role');
     }
 
     /**
@@ -52,7 +60,11 @@ class RolePolicy
      */
     public function restore(User $user, Role $role): bool
     {
-        return $user->hasRole('admin');
+        if (strtolower($role->name) === 'admin') {
+            return false;
+        }
+
+        return $user->can('restore-role');
     }
 
     /**
@@ -60,6 +72,10 @@ class RolePolicy
      */
     public function forceDelete(User $user, Role $role): bool
     {
-        return $user->hasRole('admin');
+        if (strtolower($role->name) === 'admin') {
+            return false;
+        }
+
+        return $user->can('force-delete-role');
     }
 }
