@@ -12,7 +12,7 @@ class StudentPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('view-any-student');
     }
 
     /**
@@ -20,7 +20,7 @@ class StudentPolicy
      */
     public function view(User $user, Student $student): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('view-student');
     }
 
     /**
@@ -28,7 +28,7 @@ class StudentPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('create-student');
     }
 
     /**
@@ -36,7 +36,7 @@ class StudentPolicy
      */
     public function update(User $user, Student $student): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('update-student');
     }
 
     /**
@@ -44,7 +44,7 @@ class StudentPolicy
      */
     public function delete(User $user, Student $student): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('delete-student');
     }
 
     /**
@@ -52,7 +52,7 @@ class StudentPolicy
      */
     public function restore(User $user, Student $student): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('restore-student');
     }
 
     /**
@@ -60,6 +60,6 @@ class StudentPolicy
      */
     public function forceDelete(User $user, Student $student): bool
     {
-        return $user->hasRole(['admin', 'spoc', 'co-ordinator']);
+        return $user->can('force-delete-student');
     }
 }
