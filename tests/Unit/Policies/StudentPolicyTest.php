@@ -22,6 +22,7 @@ class StudentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider viewAnyPermissionProvider
      */
     public function it_checks_view_any_permission($permission, $shouldBeAllowed)
@@ -30,7 +31,7 @@ class StudentPolicyTest extends TestCase
         if ($permission) {
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
-        $policy = new StudentPolicy();
+        $policy = new StudentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->viewAny($user));
     }
 
@@ -44,6 +45,7 @@ class StudentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider createPermissionProvider
      */
     public function it_checks_create_permission($permission, $shouldBeAllowed)
@@ -52,7 +54,7 @@ class StudentPolicyTest extends TestCase
         if ($permission) {
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
-        $policy = new StudentPolicy();
+        $policy = new StudentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->create($user));
     }
 
@@ -66,6 +68,7 @@ class StudentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider viewPermissionProvider
      */
     public function it_checks_view_permission($permission, $shouldBeAllowed)
@@ -75,7 +78,7 @@ class StudentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $student = Student::factory()->create();
-        $policy = new StudentPolicy();
+        $policy = new StudentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->view($user, $student));
     }
 
@@ -89,6 +92,7 @@ class StudentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider updatePermissionProvider
      */
     public function it_checks_update_permission($permission, $shouldBeAllowed)
@@ -98,7 +102,7 @@ class StudentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $student = Student::factory()->create();
-        $policy = new StudentPolicy();
+        $policy = new StudentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->update($user, $student));
     }
 
@@ -112,6 +116,7 @@ class StudentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider deletePermissionProvider
      */
     public function it_checks_delete_permission($permission, $shouldBeAllowed)
@@ -121,7 +126,7 @@ class StudentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $student = Student::factory()->create();
-        $policy = new StudentPolicy();
+        $policy = new StudentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->delete($user, $student));
     }
 
@@ -135,6 +140,7 @@ class StudentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider restorePermissionProvider
      */
     public function it_checks_restore_permission($permission, $shouldBeAllowed)
@@ -144,7 +150,7 @@ class StudentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $student = Student::factory()->create();
-        $policy = new StudentPolicy();
+        $policy = new StudentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->restore($user, $student));
     }
 
@@ -158,6 +164,7 @@ class StudentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider forceDeletePermissionProvider
      */
     public function it_checks_force_delete_permission($permission, $shouldBeAllowed)
@@ -167,7 +174,7 @@ class StudentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $student = Student::factory()->create();
-        $policy = new StudentPolicy();
+        $policy = new StudentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->forceDelete($user, $student));
     }
 

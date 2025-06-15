@@ -15,6 +15,7 @@ class DivisionPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider viewAnyPermissionProvider
      */
     public function it_checks_view_any_permission($permission, $shouldBeAllowed)
@@ -23,7 +24,7 @@ class DivisionPolicyTest extends TestCase
         if ($permission) {
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
-        $policy = new DivisionPolicy();
+        $policy = new DivisionPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->viewAny($user));
     }
 
@@ -37,6 +38,7 @@ class DivisionPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider createPermissionProvider
      */
     public function it_checks_create_permission($permission, $shouldBeAllowed)
@@ -45,7 +47,7 @@ class DivisionPolicyTest extends TestCase
         if ($permission) {
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
-        $policy = new DivisionPolicy();
+        $policy = new DivisionPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->create($user));
     }
 
@@ -59,6 +61,7 @@ class DivisionPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider viewPermissionProvider
      */
     public function it_checks_view_permission($permission, $shouldBeAllowed)
@@ -68,7 +71,7 @@ class DivisionPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $division = Division::factory()->create();
-        $policy = new DivisionPolicy();
+        $policy = new DivisionPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->view($user, $division));
     }
 
@@ -82,6 +85,7 @@ class DivisionPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider updatePermissionProvider
      */
     public function it_checks_update_permission($permission, $shouldBeAllowed)
@@ -91,7 +95,7 @@ class DivisionPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $division = Division::factory()->create();
-        $policy = new DivisionPolicy();
+        $policy = new DivisionPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->update($user, $division));
     }
 
@@ -105,6 +109,7 @@ class DivisionPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider deletePermissionProvider
      */
     public function it_checks_delete_permission($permission, $shouldBeAllowed)
@@ -114,7 +119,7 @@ class DivisionPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $division = Division::factory()->create();
-        $policy = new DivisionPolicy();
+        $policy = new DivisionPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->delete($user, $division));
     }
 
@@ -128,6 +133,7 @@ class DivisionPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider restorePermissionProvider
      */
     public function it_checks_restore_permission($permission, $shouldBeAllowed)
@@ -137,7 +143,7 @@ class DivisionPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $division = Division::factory()->create();
-        $policy = new DivisionPolicy();
+        $policy = new DivisionPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->restore($user, $division));
     }
 
@@ -151,6 +157,7 @@ class DivisionPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider forceDeletePermissionProvider
      */
     public function it_checks_force_delete_permission($permission, $shouldBeAllowed)
@@ -160,7 +167,7 @@ class DivisionPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $division = Division::factory()->create();
-        $policy = new DivisionPolicy();
+        $policy = new DivisionPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->forceDelete($user, $division));
     }
 

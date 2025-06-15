@@ -14,6 +14,7 @@ class UserPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider viewAnyPermissionProvider
      */
     public function it_checks_view_any_permission($permission, $shouldBeAllowed)
@@ -22,7 +23,7 @@ class UserPolicyTest extends TestCase
         if ($permission) {
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
-        $policy = new UserPolicy();
+        $policy = new UserPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->viewAny($user));
     }
 
@@ -36,6 +37,7 @@ class UserPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider createPermissionProvider
      */
     public function it_checks_create_permission($permission, $shouldBeAllowed)
@@ -44,7 +46,7 @@ class UserPolicyTest extends TestCase
         if ($permission) {
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
-        $policy = new UserPolicy();
+        $policy = new UserPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->create($user));
     }
 
@@ -58,6 +60,7 @@ class UserPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider viewPermissionProvider
      */
     public function it_checks_view_permission($permission, $shouldBeAllowed)
@@ -67,7 +70,7 @@ class UserPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $model = User::factory()->create();
-        $policy = new UserPolicy();
+        $policy = new UserPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->view($user, $model));
     }
 
@@ -81,6 +84,7 @@ class UserPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider updatePermissionProvider
      */
     public function it_checks_update_permission($permission, $shouldBeAllowed)
@@ -90,7 +94,7 @@ class UserPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $model = User::factory()->create();
-        $policy = new UserPolicy();
+        $policy = new UserPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->update($user, $model));
     }
 
@@ -104,6 +108,7 @@ class UserPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider deletePermissionProvider
      */
     public function it_checks_delete_permission($permission, $shouldBeAllowed)
@@ -113,7 +118,7 @@ class UserPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $model = User::factory()->create();
-        $policy = new UserPolicy();
+        $policy = new UserPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->delete($user, $model));
     }
 
@@ -127,6 +132,7 @@ class UserPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider restorePermissionProvider
      */
     public function it_checks_restore_permission($permission, $shouldBeAllowed)
@@ -136,7 +142,7 @@ class UserPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $model = User::factory()->create();
-        $policy = new UserPolicy();
+        $policy = new UserPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->restore($user, $model));
     }
 
@@ -150,6 +156,7 @@ class UserPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider forceDeletePermissionProvider
      */
     public function it_checks_force_delete_permission($permission, $shouldBeAllowed)
@@ -159,7 +166,7 @@ class UserPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $model = User::factory()->create();
-        $policy = new UserPolicy();
+        $policy = new UserPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->forceDelete($user, $model));
     }
 

@@ -54,6 +54,7 @@ class RoleResourceTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider canViewAnyPermissionProvider
      */
     public function it_checks_can_view_any_permission($permission, $shouldBeAllowed)
@@ -77,6 +78,7 @@ class RoleResourceTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider canCreatePermissionProvider
      */
     public function it_checks_can_create_permission($permission, $shouldBeAllowed)
@@ -100,6 +102,7 @@ class RoleResourceTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider canEditPermissionProvider
      */
     public function it_checks_can_edit_permission($permission, $shouldBeAllowed)
@@ -124,6 +127,7 @@ class RoleResourceTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider canDeletePermissionProvider
      */
     public function it_checks_can_delete_permission($permission, $roleName, $shouldBeAllowed)

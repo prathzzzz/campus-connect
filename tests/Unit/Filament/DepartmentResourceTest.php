@@ -4,14 +4,13 @@ namespace Tests\Unit\Filament;
 
 use App\Filament\Resources\DepartmentResource;
 use App\Filament\Resources\DepartmentResource\Pages\ListDepartments;
-use App\Models\Department;
 use App\Models\User;
+use Filament\Forms\Form;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
-use Filament\Forms\Form;
 
 class DepartmentResourceTest extends TestCase
 {

@@ -14,6 +14,7 @@ class CustomAccountWidgetTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider permissionProvider
      */
     public function it_correctly_implements_can_view($roleName, $canView)

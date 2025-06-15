@@ -6,10 +6,8 @@ use App\Http\Middleware\IsAdmin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
-use Closure;
 
 class IsAdminTest extends TestCase
 {
@@ -24,12 +22,12 @@ class IsAdminTest extends TestCase
         $user->assignRole($role);
         $this->actingAs($user);
 
-        $request = new Request();
+        $request = new Request;
         $next = function ($request) {
             return 'called';
         };
 
-        $middleware = new IsAdmin();
+        $middleware = new IsAdmin;
         $response = $middleware->handle($request, $next);
 
         $this->assertEquals('called', $response);
@@ -44,12 +42,12 @@ class IsAdminTest extends TestCase
         $user->assignRole($role);
         $this->actingAs($user);
 
-        $request = new Request();
+        $request = new Request;
         $next = function ($request) {
             return 'called';
         };
 
-        $middleware = new IsAdmin();
+        $middleware = new IsAdmin;
         $response = $middleware->handle($request, $next);
 
         $this->assertEquals(302, $response->getStatusCode());
@@ -58,12 +56,12 @@ class IsAdminTest extends TestCase
     /** @test */
     public function it_redirects_guests()
     {
-        $request = new Request();
+        $request = new Request;
         $next = function ($request) {
             return 'called';
         };
 
-        $middleware = new IsAdmin();
+        $middleware = new IsAdmin;
         $response = $middleware->handle($request, $next);
 
         $this->assertEquals(302, $response->getStatusCode());

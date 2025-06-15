@@ -7,9 +7,9 @@ use App\Models\Department;
 use App\Models\Division;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use ReflectionMethod;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
-use ReflectionMethod;
 
 class StatsOverviewTest extends TestCase
 {
@@ -28,7 +28,7 @@ class StatsOverviewTest extends TestCase
             'division_id' => $divisions->first()->id,
         ]);
 
-        $widget = new StatsOverview();
+        $widget = new StatsOverview;
 
         $method = new ReflectionMethod(StatsOverview::class, 'getCards');
         $method->setAccessible(true);
@@ -48,6 +48,7 @@ class StatsOverviewTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider permissionProvider
      */
     public function it_correctly_implements_can_view($roleName, $canView)

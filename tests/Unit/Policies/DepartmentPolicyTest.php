@@ -15,6 +15,7 @@ class DepartmentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider viewAnyPermissionProvider
      */
     public function it_checks_view_any_permission($permission, $shouldBeAllowed)
@@ -24,13 +25,14 @@ class DepartmentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
 
-        $policy = new DepartmentPolicy();
+        $policy = new DepartmentPolicy;
 
         $this->assertEquals($shouldBeAllowed, $policy->viewAny($user));
     }
 
     /**
      * @test
+     *
      * @dataProvider createPermissionProvider
      */
     public function it_checks_create_permission($permission, $shouldBeAllowed)
@@ -40,7 +42,7 @@ class DepartmentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
 
-        $policy = new DepartmentPolicy();
+        $policy = new DepartmentPolicy;
 
         $this->assertEquals($shouldBeAllowed, $policy->create($user));
     }
@@ -63,6 +65,7 @@ class DepartmentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider viewPermissionProvider
      */
     public function it_checks_view_permission($permission, $shouldBeAllowed)
@@ -72,7 +75,7 @@ class DepartmentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $department = Department::factory()->create();
-        $policy = new DepartmentPolicy();
+        $policy = new DepartmentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->view($user, $department));
     }
 
@@ -86,6 +89,7 @@ class DepartmentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider updatePermissionProvider
      */
     public function it_checks_update_permission($permission, $shouldBeAllowed)
@@ -95,7 +99,7 @@ class DepartmentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $department = Department::factory()->create();
-        $policy = new DepartmentPolicy();
+        $policy = new DepartmentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->update($user, $department));
     }
 
@@ -109,6 +113,7 @@ class DepartmentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider deletePermissionProvider
      */
     public function it_checks_delete_permission($permission, $shouldBeAllowed)
@@ -118,7 +123,7 @@ class DepartmentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $department = Department::factory()->create();
-        $policy = new DepartmentPolicy();
+        $policy = new DepartmentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->delete($user, $department));
     }
 
@@ -132,6 +137,7 @@ class DepartmentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider restorePermissionProvider
      */
     public function it_checks_restore_permission($permission, $shouldBeAllowed)
@@ -141,7 +147,7 @@ class DepartmentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $department = Department::factory()->create();
-        $policy = new DepartmentPolicy();
+        $policy = new DepartmentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->restore($user, $department));
     }
 
@@ -155,6 +161,7 @@ class DepartmentPolicyTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider forceDeletePermissionProvider
      */
     public function it_checks_force_delete_permission($permission, $shouldBeAllowed)
@@ -164,7 +171,7 @@ class DepartmentPolicyTest extends TestCase
             $user->givePermissionTo(Permission::create(['name' => $permission]));
         }
         $department = Department::factory()->create();
-        $policy = new DepartmentPolicy();
+        $policy = new DepartmentPolicy;
         $this->assertEquals($shouldBeAllowed, $policy->forceDelete($user, $department));
     }
 

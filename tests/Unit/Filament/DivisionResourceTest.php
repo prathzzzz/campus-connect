@@ -4,7 +4,6 @@ namespace Tests\Unit\Filament;
 
 use App\Filament\Resources\DivisionResource;
 use App\Filament\Resources\DivisionResource\Pages\ListDivisions;
-use App\Models\Division;
 use App\Models\User;
 use Filament\Forms\Form;
 use Illuminate\Foundation\Testing\RefreshDatabase;
