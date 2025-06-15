@@ -2,8 +2,17 @@
 
 namespace App\Providers;
 
+use App\Models\Department;
+use App\Models\Division;
+use App\Models\Student;
+use App\Models\User;
+use App\Policies\DepartmentPolicy;
+use App\Policies\DivisionPolicy;
+use App\Policies\StudentPolicy;
+use App\Policies\UserPolicy;
+use App\Policies\RolePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +22,11 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        User::class => UserPolicy::class,
+        Role::class => RolePolicy::class,
+        Student::class => StudentPolicy::class,
+        Department::class => DepartmentPolicy::class,
+        Division::class => DivisionPolicy::class,
     ];
 
     /**
@@ -29,8 +42,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::before(function ($user, $ability) {
-            return $user->hasRole('admin') ? true : null;
-        });
+        //
     }
 }
