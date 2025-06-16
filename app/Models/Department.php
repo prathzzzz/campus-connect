@@ -26,7 +26,10 @@ class Department extends Model
         return $this->hasMany(Division::class);
     }
 
- 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -34,6 +37,6 @@ class Department extends Model
             ->logOnly(['*'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn (string $eventName) => "This department has been {$eventName}");
+            ->setDescriptionForEvent(fn(string $eventName) => "This department has been {$eventName}");
     }
 }
