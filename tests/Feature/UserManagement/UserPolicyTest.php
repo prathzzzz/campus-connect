@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
-class DeleteUserTest extends TestCase
+class UserPolicyTest extends TestCase
 {
     use RefreshDatabase;
 
