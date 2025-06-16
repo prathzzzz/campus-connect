@@ -26,10 +26,7 @@ class Department extends Model
         return $this->hasMany(Division::class);
     }
 
-    public function students()
-    {
-        return $this->hasMany(Student::class);
-    }
+ 
 
     public function getActivitylogOptions(): LogOptions
     {
