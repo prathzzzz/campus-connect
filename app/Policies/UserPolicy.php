@@ -59,6 +59,7 @@ class UserPolicy
         if ($user->id === $model->id) {
             return false;
         }
+
         return $user->can('delete-user');
     }
 

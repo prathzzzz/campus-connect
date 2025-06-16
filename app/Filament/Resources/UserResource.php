@@ -44,10 +44,10 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->minLength(8)
-                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                    ->dehydrated(fn($state) => filled($state))
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
                     ->default('password')
-                    ->required(fn(string $context): bool => $context === 'create'),
+                    ->required(fn (string $context): bool => $context === 'create'),
                 Select::make('roles')
                     ->multiple()
                     ->relationship('roles', 'name')
