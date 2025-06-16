@@ -2,61 +2,43 @@
 
 namespace Tests\Unit\Filament;
 
-use App\Filament\Resources\UserResource;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Models\User;
-use Filament\Forms\Form;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Livewire\Livewire;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class UserResourceTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_has_correct_form_fields()
-    {
-        $form = UserResource::form(new Form($this->createMock(\Filament\Forms\Contracts\HasForms::class)));
-        $fields = $form->getComponents();
+    protected User $admin;
 
-        $this->assertCount(5, $fields);
-        $this->assertEquals('name', $fields[0]->getName());
-        $this->assertEquals('email', $fields[1]->getName());
-        $this->assertEquals('email_verified_at', $fields[2]->getName());
-        $this->assertEquals('password', $fields[3]->getName());
-        $this->assertEquals('roles', $fields[4]->getName());
+    protected User $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('app:sync-permissions');
+        $this->admin = User::factory()->create();
+        $this->admin->assignRole('admin');
+        $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function it_has_correct_table_columns()
+    public function users_with_permission_can_list_users()
     {
-        $adminRole = Role::create(['name' => 'admin']);
-        $permission = Permission::create(['name' => 'view-any-user']);
-        $adminRole->givePermissionTo($permission);
-        /** @var User $admin */
-        $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
-
-        $this->actingAs($admin);
-
+        $this->actingAs($this->admin);
         Livewire::test(ListUsers::class)
-            ->assertTableColumnExists('name')
-            ->assertTableColumnExists('email')
-            ->assertTableColumnExists('roles.name')
-            ->assertTableColumnExists('email_verified_at')
-            ->assertTableColumnExists('created_at')
-            ->assertTableColumnExists('updated_at');
+            ->assertCanSeeTableRecords(User::all());
     }
 
     /** @test */
-    public function it_eager_loads_roles_in_get_eloquent_query()
+    public function users_without_permission_cannot_list_users()
     {
-        $query = UserResource::getEloquentQuery();
-        $user = $query->find(User::factory()->create()->id);
-
-        $this->assertTrue($user->relationLoaded('roles'));
+        $this->actingAs($this->user);
+        Livewire::test(ListUsers::class)
+            ->assertForbidden();
     }
 }

@@ -3,9 +3,23 @@
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
+    /**
+     * The permissions that this policy requires.
+     */
+    public static array $permissions = [
+        'view-any-user',
+        'view-user',
+        'create-user',
+        'update-user',
+        'delete-user',
+        'restore-user',
+        'force-delete-user',
+    ];
+
     /**
      * Determine whether the user can view any models.
      */

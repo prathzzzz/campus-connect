@@ -5,72 +5,59 @@ namespace Tests\Unit\Filament;
 use App\Filament\Widgets\StatsOverview;
 use App\Models\Department;
 use App\Models\Division;
-use App\Models\Student;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use ReflectionMethod;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class StatsOverviewTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('app:sync-permissions');
+    }
+
     /** @test */
     public function it_returns_the_correct_cards_with_counts()
     {
-        Role::create(['name' => 'student']);
         $departments = Department::factory()->count(3)->create();
-        $divisions = Division::factory()->count(2)->create([
+        Division::factory()->count(2)->create([
             'department_id' => $departments->first()->id,
         ]);
-        Student::factory()->count(5)->create([
-            'department_id' => $departments->first()->id,
-            'division_id' => $divisions->first()->id,
-        ]);
 
-        $widget = new StatsOverview;
-
+        $widget = new StatsOverview();
         $method = new ReflectionMethod(StatsOverview::class, 'getCards');
-        $method->setAccessible(true);
         $cards = $method->invoke($widget);
 
-        $this->assertCount(3, $cards);
+        $this->assertCount(2, $cards);
 
-        $this->assertEquals('Total Students', $cards[0]->getLabel());
-        $this->assertEquals(5, $cards[0]->getValue());
+        $this->assertEquals('Total Departments', $cards[0]->getLabel());
+        $this->assertEquals(3, $cards[0]->getValue());
 
-        $this->assertEquals('Total Departments', $cards[1]->getLabel());
-        $this->assertEquals(3, $cards[1]->getValue());
-
-        $this->assertEquals('Total Divisions', $cards[2]->getLabel());
-        $this->assertEquals(2, $cards[2]->getValue());
+        $this->assertEquals('Total Divisions', $cards[1]->getLabel());
+        $this->assertEquals(2, $cards[1]->getValue());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider permissionProvider
-     */
-    public function it_correctly_implements_can_view($roleName, $canView)
+    /** @test */
+    public function admin_can_view_stats_overview()
     {
-        $role = Role::create(['name' => $roleName]);
-        /** @var \App\Models\User $user */
-        $user = \App\Models\User::factory()->create();
-        $user->assignRole($role);
+        /** @var User $admin */
+        $admin = User::factory()->create();
+        $admin->assignRole('admin');
+        $this->actingAs($admin);
+        $this->assertTrue(StatsOverview::canView());
+    }
 
+    /** @test */
+    public function non_admin_cannot_view_stats_overview()
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
         $this->actingAs($user);
-
-        $this->assertEquals($canView, StatsOverview::canView());
-    }
-
-    public static function permissionProvider()
-    {
-        return [
-            'admin can view' => ['admin', true],
-            'spoc can view' => ['spoc', true],
-            'co-ordinator can view' => ['co-ordinator', true],
-            'student cannot view' => ['student', false],
-            'other role cannot view' => ['other', false],
-        ];
+        $this->assertFalse(StatsOverview::canView());
     }
 }

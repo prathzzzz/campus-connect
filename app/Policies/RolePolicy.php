@@ -8,6 +8,19 @@ use Spatie\Permission\Models\Role;
 class RolePolicy
 {
     /**
+     * The permissions that this policy requires.
+     */
+    public static array $permissions = [
+        'view-any-role',
+        'view-role',
+        'create-role',
+        'update-role',
+        'delete-role',
+        'restore-role',
+        'force-delete-role',
+    ];
+
+    /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool

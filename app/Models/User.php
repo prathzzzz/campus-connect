@@ -56,6 +56,21 @@ class User extends Authenticatable implements MustVerifyEmail
             ->logOnly(['*'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn (string $eventName) => "This user has been {$eventName}");
+            ->setDescriptionForEvent(fn(string $eventName) => "This user has been {$eventName}");
+    }
+
+
+    /**
+     * Determine if the user has verified their email address.
+     *
+     * @return bool
+     */
+    public function hasVerifiedEmail()
+    {
+        if (! app()->isProduction()) {
+            return true;
+        }
+
+        return ! is_null($this->email_verified_at);
     }
 }

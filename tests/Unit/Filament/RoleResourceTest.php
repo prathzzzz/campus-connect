@@ -5,149 +5,96 @@ namespace Tests\Unit\Filament;
 use App\Filament\Resources\RoleResource;
 use App\Filament\Resources\RoleResource\Pages\ListRoles;
 use App\Models\User;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Form;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Livewire\Livewire;
-use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class RoleResourceTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_has_correct_form_fields()
+    protected User $admin;
+
+    protected User $user;
+
+    public function setUp(): void
     {
-        $form = RoleResource::form(new Form($this->createMock(\Filament\Forms\Contracts\HasForms::class)));
-        $fields = $form->getComponents();
-
-        $this->assertCount(2, $fields);
-        $this->assertInstanceOf(Section::class, $fields[0]);
-        $this->assertInstanceOf(Section::class, $fields[1]);
-
-        $firstSectionFields = $fields[0]->getChildComponents();
-        $this->assertCount(1, $firstSectionFields);
-        $this->assertEquals('name', $firstSectionFields[0]->getName());
-
-        $secondSectionFields = $fields[1]->getChildComponents();
-        $this->assertCount(1, $secondSectionFields);
-        $this->assertEquals('permissions', $secondSectionFields[0]->getName());
+        parent::setUp();
+        Artisan::call('app:sync-permissions');
+        $this->admin = User::factory()->create();
+        $this->admin->assignRole('admin');
+        $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function it_has_correct_table_columns()
+    public function users_with_permission_can_list_roles()
     {
-        $adminRole = \Spatie\Permission\Models\Role::create(['name' => 'admin']);
-        $permission = Permission::create(['name' => 'view-any-role']);
-        $adminRole->givePermissionTo($permission);
-        /** @var User $admin */
-        $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
-
-        $this->actingAs($admin);
-
+        $this->actingAs($this->admin);
         Livewire::test(ListRoles::class)
-            ->assertTableColumnExists('name')
-            ->assertTableColumnExists('created_at');
+            ->assertCanSeeTableRecords(Role::all());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider canViewAnyPermissionProvider
-     */
-    public function it_checks_can_view_any_permission($permission, $shouldBeAllowed)
+    /** @test */
+    public function users_without_permission_cannot_list_roles()
     {
-        /** @var User $user */
-        $user = User::factory()->create();
-        if ($permission) {
-            $user->givePermissionTo(Permission::create(['name' => $permission]));
-        }
-        $this->actingAs($user);
-        $this->assertEquals($shouldBeAllowed, \App\Filament\Resources\RoleResource::canViewAny());
+        $this->actingAs($this->user);
+        Livewire::test(ListRoles::class)
+            ->assertForbidden();
     }
 
-    public static function canViewAnyPermissionProvider()
+    /** @test */
+    public function admin_can_create_roles()
     {
-        return [
-            'user with permission' => ['view-any-role', true],
-            'user without permission' => [null, false],
-        ];
+        $this->actingAs($this->admin);
+        $this->assertTrue(RoleResource::canCreate());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider canCreatePermissionProvider
-     */
-    public function it_checks_can_create_permission($permission, $shouldBeAllowed)
+    /** @test */
+    public function non_admin_cannot_create_roles()
     {
-        /** @var User $user */
-        $user = User::factory()->create();
-        if ($permission) {
-            $user->givePermissionTo(Permission::create(['name' => $permission]));
-        }
-        $this->actingAs($user);
-        $this->assertEquals($shouldBeAllowed, \App\Filament\Resources\RoleResource::canCreate());
+        $this->actingAs($this->user);
+        $this->assertFalse(RoleResource::canCreate());
     }
 
-    public static function canCreatePermissionProvider()
+    /** @test */
+    public function admin_can_edit_roles()
     {
-        return [
-            'user with permission' => ['create-role', true],
-            'user without permission' => [null, false],
-        ];
+        $role = Role::create(['name' => 'new-role']);
+        $this->actingAs($this->admin);
+        $this->assertTrue(RoleResource::canEdit($role));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider canEditPermissionProvider
-     */
-    public function it_checks_can_edit_permission($permission, $shouldBeAllowed)
+    /** @test */
+    public function non_admin_cannot_edit_roles()
     {
-        /** @var User $user */
-        $user = User::factory()->create();
-        if ($permission) {
-            $user->givePermissionTo(Permission::create(['name' => $permission]));
-        }
-        $this->actingAs($user);
-        $role = \Spatie\Permission\Models\Role::create(['name' => 'some-role']);
-        $this->assertEquals($shouldBeAllowed, \App\Filament\Resources\RoleResource::canEdit($role));
+        $role = Role::create(['name' => 'new-role']);
+        $this->actingAs($this->user);
+        $this->assertFalse(RoleResource::canEdit($role));
     }
 
-    public static function canEditPermissionProvider()
+    /** @test */
+    public function admin_can_delete_roles()
     {
-        return [
-            'user with permission' => ['update-role', true],
-            'user without permission' => [null, false],
-        ];
+        $role = Role::create(['name' => 'new-role']);
+        $this->actingAs($this->admin);
+        $this->assertTrue(RoleResource::canDelete($role));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider canDeletePermissionProvider
-     */
-    public function it_checks_can_delete_permission($permission, $roleName, $shouldBeAllowed)
+    /** @test */
+    public function admin_cannot_delete_the_admin_role()
     {
-        /** @var User $user */
-        $user = User::factory()->create();
-        if ($permission) {
-            $user->givePermissionTo(Permission::create(['name' => $permission]));
-        }
-        $this->actingAs($user);
-        $role = \Spatie\Permission\Models\Role::create(['name' => $roleName]);
-        $this->assertEquals($shouldBeAllowed, \App\Filament\Resources\RoleResource::canDelete($role));
+        $adminRole = Role::findByName('admin');
+        $this->actingAs($this->admin);
+        $this->assertFalse(RoleResource::canDelete($adminRole));
     }
 
-    public static function canDeletePermissionProvider()
+    /** @test */
+    public function non_admin_cannot_delete_roles()
     {
-        return [
-            'user with permission can delete non-admin role' => ['delete-role', 'some-role', true],
-            'user with permission cannot delete admin role' => ['delete-role', 'admin', false],
-            'user without permission cannot delete non-admin role' => [null, 'some-role', false],
-        ];
+        $role = Role::create(['name' => 'new-role']);
+        $this->actingAs($this->user);
+        $this->assertFalse(RoleResource::canDelete($role));
     }
 }

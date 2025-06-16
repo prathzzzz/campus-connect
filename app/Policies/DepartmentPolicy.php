@@ -4,9 +4,23 @@ namespace App\Policies;
 
 use App\Models\Department;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class DepartmentPolicy
 {
+    /**
+     * The permissions that this policy requires.
+     */
+    public static array $permissions = [
+        'view-any-department',
+        'view-department',
+        'create-department',
+        'update-department',
+        'delete-department',
+        'restore-department',
+        'force-delete-department',
+    ];
+
     /**
      * Determine whether the user can view any models.
      */

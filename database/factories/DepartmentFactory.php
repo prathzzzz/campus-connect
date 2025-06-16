@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class DepartmentFactory extends Factory
             'name' => $this->faker->unique()->company(),
             'code' => $this->faker->unique()->countryCode(),
             'is_active' => $this->faker->boolean,
+            'user_id' => User::factory(),
         ];
     }
 }

@@ -19,7 +19,7 @@ class DivisionFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->word(),
-            'department_id' => Department::factory(),
+            'department_id' => $this->faker->randomElement(Department::pluck('id')->toArray()) ?: Department::factory(),
             'is_active' => $this->faker->boolean,
         ];
     }

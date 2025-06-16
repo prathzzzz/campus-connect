@@ -4,9 +4,23 @@ namespace App\Policies;
 
 use App\Models\Division;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class DivisionPolicy
 {
+    /**
+     * The permissions that this policy requires.
+     */
+    public static array $permissions = [
+        'view-any-division',
+        'view-division',
+        'create-division',
+        'update-division',
+        'delete-division',
+        'restore-division',
+        'force-delete-division',
+    ];
+
     /**
      * Determine whether the user can view any models.
      */
