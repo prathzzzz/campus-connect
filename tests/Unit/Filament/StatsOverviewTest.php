@@ -16,7 +16,7 @@ class StatsOverviewTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         Artisan::call('app:sync-permissions');
@@ -30,7 +30,7 @@ class StatsOverviewTest extends TestCase
             'department_id' => $departments->first()->id,
         ]);
 
-        $widget = new StatsOverview();
+        $widget = new StatsOverview;
         $method = new ReflectionMethod(StatsOverview::class, 'getCards');
         $cards = $method->invoke($widget);
 
