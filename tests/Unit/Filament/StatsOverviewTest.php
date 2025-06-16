@@ -8,6 +8,7 @@ use App\Models\Division;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
+use PHPUnit\Framework\Attributes\Test;
 use ReflectionMethod;
 use Tests\TestCase;
 
@@ -21,7 +22,7 @@ class StatsOverviewTest extends TestCase
         Artisan::call('app:sync-permissions');
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_correct_cards_with_counts()
     {
         $departments = Department::factory()->count(3)->create();
@@ -42,7 +43,7 @@ class StatsOverviewTest extends TestCase
         $this->assertEquals(2, $cards[1]->getValue());
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_view_stats_overview()
     {
         /** @var User $admin */
@@ -52,7 +53,7 @@ class StatsOverviewTest extends TestCase
         $this->assertTrue(StatsOverview::canView());
     }
 
-    /** @test */
+    #[Test]
     public function non_admin_cannot_view_stats_overview()
     {
         /** @var User $user */

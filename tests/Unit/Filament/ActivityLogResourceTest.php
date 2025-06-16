@@ -6,6 +6,7 @@ use App\Filament\Resources\ActivityLogResource\Pages\ListActivityLogs;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -13,7 +14,7 @@ class ActivityLogResourceTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_has_correct_table_columns()
     {
         $adminRole = Role::create(['name' => 'admin']);

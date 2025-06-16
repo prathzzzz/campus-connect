@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UserResourceTest extends TestCase
@@ -26,7 +27,7 @@ class UserResourceTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_with_permission_can_list_users()
     {
         $this->actingAs($this->admin);
@@ -34,7 +35,7 @@ class UserResourceTest extends TestCase
             ->assertCanSeeTableRecords(User::all());
     }
 
-    /** @test */
+    #[Test]
     public function users_without_permission_cannot_list_users()
     {
         $this->actingAs($this->user);

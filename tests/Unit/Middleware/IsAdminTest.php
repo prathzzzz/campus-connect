@@ -6,6 +6,7 @@ use App\Http\Middleware\IsAdmin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -13,7 +14,7 @@ class IsAdminTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_allows_admin_users()
     {
         $role = Role::create(['name' => 'admin']);
@@ -33,7 +34,7 @@ class IsAdminTest extends TestCase
         $this->assertEquals('called', $response);
     }
 
-    /** @test */
+    #[Test]
     public function it_redirects_non_admin_users()
     {
         $role = Role::create(['name' => 'user']);
@@ -53,7 +54,7 @@ class IsAdminTest extends TestCase
         $this->assertEquals(302, $response->getStatusCode());
     }
 
-    /** @test */
+    #[Test]
     public function it_redirects_guests()
     {
         $request = new Request;

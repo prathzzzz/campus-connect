@@ -5,6 +5,8 @@ namespace Tests\Unit\Filament;
 use App\Filament\Widgets\CustomAccountWidget;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -12,11 +14,8 @@ class CustomAccountWidgetTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     *
-     * @dataProvider permissionProvider
-     */
+    #[Test]
+    #[DataProvider('permissionProvider')]
     public function it_correctly_implements_can_view($roleName, $canView)
     {
         $role = Role::create(['name' => $roleName]);

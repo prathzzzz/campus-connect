@@ -5,6 +5,8 @@ namespace Tests\Unit\Policies;
 use App\Models\User;
 use App\Policies\RolePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -13,11 +15,8 @@ class RolePolicyTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     *
-     * @dataProvider viewAnyPermissionProvider
-     */
+    #[Test]
+    #[DataProvider('viewAnyPermissionProvider')]
     public function it_checks_view_any_permission($permission, $shouldBeAllowed)
     {
         $user = User::factory()->create();
@@ -36,11 +35,8 @@ class RolePolicyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider createPermissionProvider
-     */
+    #[Test]
+    #[DataProvider('createPermissionProvider')]
     public function it_checks_create_permission($permission, $shouldBeAllowed)
     {
         $user = User::factory()->create();
@@ -59,11 +55,8 @@ class RolePolicyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider viewPermissionProvider
-     */
+    #[Test]
+    #[DataProvider('viewPermissionProvider')]
     public function it_checks_view_permission($permission, $shouldBeAllowed)
     {
         $user = User::factory()->create();
@@ -83,11 +76,8 @@ class RolePolicyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider updatePermissionProvider
-     */
+    #[Test]
+    #[DataProvider('updatePermissionProvider')]
     public function it_checks_update_permission($permission, $roleName, $shouldBeAllowed)
     {
         $user = User::factory()->create();
@@ -108,11 +98,8 @@ class RolePolicyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider deletePermissionProvider
-     */
+    #[Test]
+    #[DataProvider('deletePermissionProvider')]
     public function it_checks_delete_permission($permission, $roleName, $shouldBeAllowed)
     {
         $user = User::factory()->create();
@@ -133,11 +120,8 @@ class RolePolicyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider restorePermissionProvider
-     */
+    #[Test]
+    #[DataProvider('restorePermissionProvider')]
     public function it_checks_restore_permission($permission, $roleName, $shouldBeAllowed)
     {
         $user = User::factory()->create();
@@ -158,11 +142,8 @@ class RolePolicyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider forceDeletePermissionProvider
-     */
+    #[Test]
+    #[DataProvider('forceDeletePermissionProvider')]
     public function it_checks_force_delete_permission($permission, $roleName, $shouldBeAllowed)
     {
         $user = User::factory()->create();

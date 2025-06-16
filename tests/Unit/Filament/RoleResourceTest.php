@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -28,7 +29,7 @@ class RoleResourceTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_with_permission_can_list_roles()
     {
         $this->actingAs($this->admin);
@@ -36,7 +37,7 @@ class RoleResourceTest extends TestCase
             ->assertCanSeeTableRecords(Role::all());
     }
 
-    /** @test */
+    #[Test]
     public function users_without_permission_cannot_list_roles()
     {
         $this->actingAs($this->user);
@@ -44,21 +45,21 @@ class RoleResourceTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_create_roles()
     {
         $this->actingAs($this->admin);
         $this->assertTrue(RoleResource::canCreate());
     }
 
-    /** @test */
+    #[Test]
     public function non_admin_cannot_create_roles()
     {
         $this->actingAs($this->user);
         $this->assertFalse(RoleResource::canCreate());
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_edit_roles()
     {
         $role = Role::create(['name' => 'new-role']);
@@ -66,7 +67,7 @@ class RoleResourceTest extends TestCase
         $this->assertTrue(RoleResource::canEdit($role));
     }
 
-    /** @test */
+    #[Test]
     public function non_admin_cannot_edit_roles()
     {
         $role = Role::create(['name' => 'new-role']);
@@ -74,7 +75,7 @@ class RoleResourceTest extends TestCase
         $this->assertFalse(RoleResource::canEdit($role));
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_delete_roles()
     {
         $role = Role::create(['name' => 'new-role']);
@@ -82,7 +83,7 @@ class RoleResourceTest extends TestCase
         $this->assertTrue(RoleResource::canDelete($role));
     }
 
-    /** @test */
+    #[Test]
     public function admin_cannot_delete_the_admin_role()
     {
         $adminRole = Role::findByName('admin');
@@ -90,7 +91,7 @@ class RoleResourceTest extends TestCase
         $this->assertFalse(RoleResource::canDelete($adminRole));
     }
 
-    /** @test */
+    #[Test]
     public function non_admin_cannot_delete_roles()
     {
         $role = Role::create(['name' => 'new-role']);
