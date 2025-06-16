@@ -5,18 +5,19 @@ namespace Tests\Feature\UserManagement;
 use App\Filament\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Hash;
 
 class EditUserTest extends TestCase
 {
     use RefreshDatabase;
 
     protected User $adminUser;
+
     protected User $testUser;
 
     protected function setUp(): void

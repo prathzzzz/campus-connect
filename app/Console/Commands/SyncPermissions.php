@@ -37,7 +37,7 @@ class SyncPermissions extends Command
         $policyFiles = $filesystem->glob(app_path('Policies/*Policy.php'));
 
         foreach ($policyFiles as $file) {
-            $className = 'App\\Policies\\' . $filesystem->name($file);
+            $className = 'App\\Policies\\'.$filesystem->name($file);
             if (! class_exists($className)) {
                 continue;
             }

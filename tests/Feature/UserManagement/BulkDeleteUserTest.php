@@ -18,6 +18,7 @@ class BulkDeleteUserTest extends TestCase
     use RefreshDatabase;
 
     protected User $adminUser;
+
     protected Collection $usersToDelete;
 
     protected function setUp(): void

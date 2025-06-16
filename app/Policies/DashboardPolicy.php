@@ -7,14 +7,14 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DashboardPolicy
 {
-  use HandlesAuthorization;
+    use HandlesAuthorization;
 
-  public static array $permissions = [
-    'view-admin-dashboard',
-  ];
+    public static array $permissions = [
+        'view-admin-dashboard',
+    ];
 
-  public function viewAdminDashboard(User $user): bool
-  {
-    return $user->hasPermissionTo('view-admin-dashboard');
-  }
+    public function viewAdminDashboard(User $user): bool
+    {
+        return $user->hasPermissionTo('view-admin-dashboard');
+    }
 }

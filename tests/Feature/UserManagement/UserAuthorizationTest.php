@@ -5,7 +5,6 @@ namespace Tests\Feature\UserManagement;
 use App\Filament\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class UserAuthorizationTest extends TestCase
@@ -13,6 +12,7 @@ class UserAuthorizationTest extends TestCase
     use RefreshDatabase;
 
     protected User $regularUser;
+
     protected User $testUser;
 
     protected function setUp(): void

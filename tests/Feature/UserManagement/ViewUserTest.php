@@ -17,7 +17,9 @@ class ViewUserTest extends TestCase
     use RefreshDatabase;
 
     protected User $adminUser;
+
     protected User $testUser;
+
     protected Role $testRole;
 
     protected function setUp(): void

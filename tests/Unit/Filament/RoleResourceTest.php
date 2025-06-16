@@ -20,7 +20,7 @@ class RoleResourceTest extends TestCase
 
     protected User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         Artisan::call('app:sync-permissions');

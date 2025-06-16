@@ -24,7 +24,7 @@ class UserPolicyTest extends TestCase
         $user->givePermissionTo('delete-user');
         $otherUser = User::factory()->create();
 
-        $this->assertTrue((new UserPolicy())->delete($user, $otherUser));
+        $this->assertTrue((new UserPolicy)->delete($user, $otherUser));
     }
 
     public function test_user_cannot_delete_other_users_without_permission(): void
@@ -32,7 +32,7 @@ class UserPolicyTest extends TestCase
         $user = User::factory()->create();
         $otherUser = User::factory()->create();
 
-        $this->assertFalse((new UserPolicy())->delete($user, $otherUser));
+        $this->assertFalse((new UserPolicy)->delete($user, $otherUser));
     }
 
     public function test_user_cannot_delete_themselves(): void
@@ -40,6 +40,6 @@ class UserPolicyTest extends TestCase
         $user = User::factory()->create();
         $user->givePermissionTo('delete-user');
 
-        $this->assertFalse((new UserPolicy())->delete($user, $user));
+        $this->assertFalse((new UserPolicy)->delete($user, $user));
     }
 }
